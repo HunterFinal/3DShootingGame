@@ -19,6 +19,8 @@ Encoding : UTF-8
 
 #include "Debug.h"
 
+DEFINE_LOG_CATEGORY(MDebugLog);
+
 namespace UE::MLibrary
 {
   float Debug::gLogTime = 15.0f;
@@ -50,29 +52,34 @@ namespace UE::MLibrary
 
     void Debug::log_impl(MLIB_DEBUG_LEVEL debugLevel, const FString& log)
     {
-      if (GEngine == nullptr)
-      {
-        return;
-      }
+      #if WITH_EDITOR
+        if (GEngine == nullptr)
+        {
+          return;
+        }
 
-      switch (debugLevel)
-      {
-        case MLIB_DEBUG_LEVEL::Log:
+        switch (debugLevel)
         {
-          GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_FORMAT.LogColor, log);
+          case MLIB_DEBUG_LEVEL::Log:
+          {
+            GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_FORMAT.LogColor, log);
+            UE_LOG(MDebugLog, Log, TEXT("%s"), *log);
+          }
+          break;
+          case MLIB_DEBUG_LEVEL::Warning:
+          {
+            GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_WARNING_FORMAT.LogColor, log);
+            UE_LOG(MDebugLog, Warning, TEXT("%s"), *log); 
+          }
+          break;
+          case MLIB_DEBUG_LEVEL::Error:
+          {
+            GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_ERROR_FORMAT.LogColor, log); 
+            UE_LOG(MDebugLog, Error, TEXT("%s"), *log);
+          }
+          break;
         }
-        break;
-        case MLIB_DEBUG_LEVEL::Warning:
-        {
-          GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_WARNING_FORMAT.LogColor, log); 
-        }
-        break;
-        case MLIB_DEBUG_LEVEL::Error:
-        {
-          GEngine->AddOnScreenDebugMessage(-1, gLogTime, LOG_ERROR_FORMAT.LogColor, log); 
-        }
-        break;
-      }
+      #endif
     }
 
   #pragma endregion

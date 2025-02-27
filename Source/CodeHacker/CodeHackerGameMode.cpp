@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CodeHackerGameMode.h"
-#include "CodeHackerCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ACodeHackerGameMode::ACodeHackerGameMode()

@@ -7,7 +7,12 @@
 		{
 			"Name": "CodeHacker",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"UMG",
+				"Engine",
+				"CoreUObject"
+			]
 		},
 		{
 			"Name": "MLibrary",
@@ -24,7 +29,6 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
-
 	],
 	"Plugins": [
 		{
@@ -33,6 +37,14 @@
 			"TargetAllowList": [
 				"Editor"
 			]
+		},
+		{
+			"Name": "GameplayAbilities",
+			"Enabled": true
+		},
+		{
+			"Name": "MemoryUsageQueries",
+			"Enabled": true
 		}
 	]
 }
