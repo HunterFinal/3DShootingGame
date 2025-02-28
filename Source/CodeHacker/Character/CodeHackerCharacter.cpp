@@ -12,6 +12,10 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 
+#include "Weapon/CHRangedWeaponInstance.h"
+#include "Weapon/CHEquipmentInstance.h"
+#include "Weapon/CHEquipmentManagerComponent.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
 
 //////////////////////////////////////////////////////////////////////////
@@ -53,6 +57,7 @@ ACodeHackerCharacter::ACodeHackerCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+	EquipmentManagerComp = CreateDefaultSubobject<UCHEquipmentManagerComponent>(TEXT("Equipment Manager"));
 }
 
 void ACodeHackerCharacter::BeginPlay()
@@ -67,6 +72,11 @@ void ACodeHackerCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
+	}
+
+	if (EquipmentManagerComp != nullptr)
+	{
+		EquipmentManagerComp->EquipItem(RangedWeaponDef);
 	}
 }
 

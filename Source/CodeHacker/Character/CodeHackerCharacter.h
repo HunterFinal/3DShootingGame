@@ -43,6 +43,12 @@ class ACodeHackerCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> LookAction;
 
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UCHEquipmentDefinition> RangedWeaponDef;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<class UCHEquipmentManagerComponent> EquipmentManagerComp;
+
 public:
 	ACodeHackerCharacter();
 	

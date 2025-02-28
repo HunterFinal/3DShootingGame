@@ -22,7 +22,7 @@ Encoding : UTF-8
 
 #include "MLibrary.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME*(CHEquipmentInstance)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(CHEquipmentInstance)
 
 UCHEquipmentInstance::UCHEquipmentInstance()
 {}
