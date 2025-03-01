@@ -26,7 +26,9 @@ public class CodeHacker : ModuleRules
 				"InputCore", 
 				"EnhancedInput", 
 				"MLibrary", 
-				"Niagara"
+				"Niagara",
+				"GameplayTags",						// Use of FGameplayTag
+				"MStateMachine",
 			}
 		);
 

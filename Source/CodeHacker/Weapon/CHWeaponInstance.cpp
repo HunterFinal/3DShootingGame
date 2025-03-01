@@ -1,5 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+/*
 
+CHWeaponInstance.cpp
+
+Author : MAI ZHICONG(バクチソウ)
+
+Description : 武器実体
+
+Update History: 2025/02/28 作成
+
+Version : alpha_1.0.0
+
+Encoding : UTF-8 
+
+*/
 
 #include "CHWeaponInstance.h"
 

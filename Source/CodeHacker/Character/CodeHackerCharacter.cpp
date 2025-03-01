@@ -74,6 +74,7 @@ void ACodeHackerCharacter::BeginPlay()
 		}
 	}
 
+	// 装備品を装備
 	if (EquipmentManagerComp != nullptr)
 	{
 		EquipmentManagerComp->EquipItem(RangedWeaponDef);

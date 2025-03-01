@@ -9,7 +9,7 @@
 class UCHEquipmentDefinition;
 class UCHEquipmentInstance;
 
-USTRUCT(BlueprintType)
+USTRUCT()
 struct FCHEquipmentListEntry
 {
 	GENERATED_BODY()
@@ -40,7 +40,7 @@ private:
 
 };
 
-USTRUCT(BlueprintType)
+USTRUCT()
 struct FCHEquipmentList
 {
 	GENERATED_BODY()
@@ -70,7 +70,6 @@ private:
 	UPROPERTY()
 	TObjectPtr<UActorComponent> m_ownerComp;
 };
-
 
 
 

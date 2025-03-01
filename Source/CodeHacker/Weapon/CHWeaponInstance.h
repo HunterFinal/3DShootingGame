@@ -1,8 +1,23 @@
 // Fill out your copyright notice in the Description page of Project Settings.
+/*
 
+CHWeaponInstance.h
+
+Author : MAI ZHICONG(バクチソウ)
+
+Description : 武器実体
+
+Update History: 2025/02/28 作成
+
+Version : alpha_1.0.0
+
+Encoding : UTF-8 
+
+*/
 #pragma once
 
-#include "Weapon/CHEquipmentInstance.h"
+#include "CHEquipmentInstance.h"
+
 #include "CHWeaponInstance.generated.h"
 
 /**

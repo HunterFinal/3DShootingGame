@@ -39,9 +39,9 @@ struct FCHEquipmentAppearance
 	UPROPERTY(EditAnywhere, Category = "Equipment|Appearance")
 	FTransform AttachTransform;
 };
-/**
- * 
- */
+
+
+
 UCLASS(BlueprintType, Blueprintable, Const, Abstract)
 class CODEHACKER_API UCHEquipmentDefinition : public UObject
 {
