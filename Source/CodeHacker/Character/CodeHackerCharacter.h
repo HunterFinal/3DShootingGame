@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
 #include "CodeHackerCharacter.generated.h"
@@ -15,17 +15,30 @@ struct FInputActionValue;
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTemplateCharacter, Log, All);
 
-UCLASS(config=Game)
-class ACodeHackerCharacter : public ACharacter
+UCLASS(config=Game, meta = (ShortTooltip = "Code Hackerプロジェクトに使われるキャラクターベースクラス"))
+class ACodeHackerCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
+public:
+	ACodeHackerCharacter();
+
+	//---Begin of APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	//---End of APawn Interface
+	
+	//---Begin of IAbilitySystemInterface Interface
+	UAbilitySystemComponent* GetAbilitySystemComponent() const override final;
+	//---End of IAbilitySystemInterface Interface
+
+private:
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<USpringArmComponent> CameraBoom;
+
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<class UCHCameraComponent> FollowCamera;
+	TObjectPtr<UCHCameraComponent> FollowCamera;
 	
 	/** MappingContext */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
@@ -48,10 +61,6 @@ class ACodeHackerCharacter : public ACharacter
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<class UCHEquipmentManagerComponent> EquipmentManagerComp;
-
-public:
-	ACodeHackerCharacter();
-	
 
 protected:
 

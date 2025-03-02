@@ -16,3 +16,10 @@ Encoding : UTF-8
 */
 #include "CHCameraComponent.h"
 
+#include UE_INLINE_GENERATED_CPP_BY_NAME(CHCameraComponent)
+
+UCHCameraComponent::UCHCameraComponent(const FObjectInitializer& ObjectInitializer)
+  : Super(ObjectInitializer)
+{
+}
+

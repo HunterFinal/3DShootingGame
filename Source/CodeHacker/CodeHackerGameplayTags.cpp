@@ -32,7 +32,6 @@ namespace CodeHackerGameplayTags
 
   //---Action
   #pragma region Action
-  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_Action_Idle, "CHAbility.Action.Idle", "待機");
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_Action_Walk, "CHAbility.Action.Walk", "歩く");
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_Action_Run, "CHAbility.Action.Run", "走る");
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_Action_Dash, "CHAbility.Action.Dash", "ダッシュ");
@@ -55,6 +54,15 @@ namespace CodeHackerGameplayTags
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_Shooting_SecialMoveFire, "CHAbility.Shooting.SpecialMoveFire", "必殺技撃つ");
   #pragma endregion Shooting
   //---End of Shooting
+
+  //---State
+  #pragma region State
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Idle, "CHAbility.State.Idle", "待機");
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_InSky, "CHAbility.State.InSky", "空中");
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Moving, "CHAbility.State.Moving", "移動");
+  #pragma endregion State
+  //---End of State
+  
 #pragma endregion Code Hacker Gameplay Tags Definition
 //---End of Code Hacker Gameplay Tags Definition
 

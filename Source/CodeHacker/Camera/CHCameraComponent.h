@@ -17,14 +17,23 @@ Encoding : UTF-8
 #pragma once
 
 #include "Camera/CameraComponent.h"
+
 #include "CHCameraComponent.generated.h"
 
 /**
  * 
  */
-UCLASS()
+UCLASS(Config = Game)
 class CODEHACKER_API UCHCameraComponent : public UCameraComponent
 {
 	GENERATED_BODY()
+
+public:
+	UCHCameraComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
+public:
+	virtual AActor* GetTargetActor() const
+	{
+		return GetOwner();
+	}
 };

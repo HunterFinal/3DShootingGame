@@ -17,8 +17,15 @@ Encoding : UTF-8
 #pragma once
 
 #include "Camera/PlayerCameraManager.h"
+
 #include "CHPlayerCameraManager.generated.h"
 
+namespace CameraDefault
+{
+	constexpr float CH_CAMERA_DEFAULT_POV = 90.0f;
+	constexpr float CH_CAMERA_DEFAULT_PITCH_MIN = -90.0f;
+	constexpr float CH_CAMERA_DEFAULT_PITCH_MAX = 90.0f;
+}
 /**
  * 
  */

@@ -28,6 +28,8 @@ public class CodeHacker : ModuleRules
 				"MLibrary", 
 				"Niagara",
 				"GameplayTags",						// Use of FGameplayTag
+				"GameplayAbilities",
+				"GameplayTasks",
 				"MStateMachine",
 			}
 		);

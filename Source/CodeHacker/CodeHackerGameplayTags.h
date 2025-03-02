@@ -36,7 +36,6 @@ namespace CodeHackerGameplayTags
 
     //---Action
     #pragma region Action
-    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_Action_Idle);             // 待機
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_Action_Walk);             // 歩く
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_Action_Run);              // 走る
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_Action_Dash);             // ダッシュ
@@ -59,6 +58,14 @@ namespace CodeHackerGameplayTags
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_Shooting_SecialMoveFire);  // 必殺技撃つ 
     #pragma endregion Shooting
     //---End of Shooting
+
+    //---State
+    #pragma region State
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Idle);                // 待機
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_InSky);               // 空中
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Moving);              // 移動
+    #pragma endregion State
+    //---End of State
 
   #pragma endregion Code Hacker Gameplay Tags Declaration
   //---End of Code Hacker Gameplay Tags Declaration

@@ -60,6 +60,17 @@ ACodeHackerCharacter::ACodeHackerCharacter()
 	EquipmentManagerComp = CreateDefaultSubobject<UCHEquipmentManagerComponent>(TEXT("Equipment Manager"));
 }
 
+void ACodeHackerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+}
+
+UAbilitySystemComponent* ACodeHackerCharacter::GetAbilitySystemComponent() const
+{
+	return nullptr;
+}
+
+
 void ACodeHackerCharacter::BeginPlay()
 {
 	// Call the base class  
