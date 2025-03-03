@@ -31,7 +31,7 @@ enum class ECHCameraWorkBlendFunction : uint8
 #pragma region FCHCameraWorkView Declaration
 struct FCHCameraWorkView
 {
-
+	
 	FCHCameraWorkView();
 	void Blend(const FCHCameraWorkView& OtherView, float OtherWeight);
 
@@ -143,14 +143,14 @@ public:
 protected:
 	void TickStack(float DeltaTime);
 	void BlendStack(FCHCameraWorkView& OutView) const;
-	UCHCameraWork* GetCameraWorkInstance(TSubclassOf<UCHCameraWork> CameraWorkClass) const;
+	UCHCameraWork* GetCameraWorkInstance(TSubclassOf<UCHCameraWork> CameraWorkClass);
 
 protected:
 	UPROPERTY()
-	TArray<TObjectPtr<UCHCameraWork>> CameraWorkInstances;
+	TArray<TObjectPtr<UCHCameraWork>> CameraWorkInstances;			// 使い回しカメラワークインスタント
 
 	UPROPERTY()
-	TArray<TObjectPtr<UCHCameraWork>> CameraWorkStack;
+	TArray<TObjectPtr<UCHCameraWork>> CameraWorkStack;					// 現在有効化しているカメラワーク
 
 protected:
 	uint8 m_bIsActive : 1;

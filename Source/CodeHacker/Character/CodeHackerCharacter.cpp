@@ -2,10 +2,12 @@
 
 #include "CodeHackerCharacter.h"
 #include "Engine/LocalPlayer.h"
+
 #include "Camera/CHCameraComponent.h"
+#include "Camera/CHSpringArmComponent.h"
+
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/Controller.h"
 
 #include "EnhancedInputComponent.h"
@@ -45,7 +47,7 @@ ACodeHackerCharacter::ACodeHackerCharacter()
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom = CreateDefaultSubobject<UCHSpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
@@ -56,7 +58,6 @@ ACodeHackerCharacter::ACodeHackerCharacter()
 	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
-	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 	EquipmentManagerComp = CreateDefaultSubobject<UCHEquipmentManagerComponent>(TEXT("Equipment Manager"));
 }
 

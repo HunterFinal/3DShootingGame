@@ -2,7 +2,8 @@
 
 #include "CHPlayerState.h"
 
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/CHAbilitySystemComponent.h"
+#include "AbilitySystem/Attributes/CHHealthSet.h"
 #include "Character/CHPawnData.h"
 #include "CHPlayerController.h"
 #include "CodeHackerLogChannels.h"
@@ -13,8 +14,13 @@ ACHPlayerState::ACHPlayerState(const FObjectInitializer& ObjectInitializer)
   : Super(ObjectInitializer)
   , PawnData(nullptr)
   , AbilitySystemComponent(nullptr)
+  , HealthSet(nullptr)
 {
-  AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<UAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
+  AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<UCHAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
+
+  // Create AttributeSet
+  // How can this bind to ASC???
+  HealthSet = CreateDefaultSubobject<UCHHealthSet>(TEXT("HealthSet"));
 }
 
 void ACHPlayerState::PreInitializeComponents()
@@ -60,7 +66,7 @@ ACHPlayerController* ACHPlayerState::GetCHPlayerController() const
   return Cast<ACHPlayerController>(GetOwner());
 }
 
-UAbilitySystemComponent* ACHPlayerState::GetCHAbilitySystemComponent() const
+UCHAbilitySystemComponent* ACHPlayerState::GetCHAbilitySystemComponent() const
 {
   return AbilitySystemComponent;
 }

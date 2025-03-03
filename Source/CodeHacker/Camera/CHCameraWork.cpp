@@ -289,7 +289,6 @@ void UCHCameraWork::DrawDebug(UCanvas* Canvas) const
 #pragma endregion UCHCameraWork Definition
 //---End of UCHCameraWork Definition
 
-
 //---Begin of UCHCameraWorkStack Definition
 #pragma region UCHCameraWorkStack Definition
 
@@ -310,7 +309,7 @@ void UCHCameraWorkStack::ActivateStack()
     // カメラワークオブジェクトに有効化通知を送る
     for (UCHCameraWork* cameraWork : CameraWorkStack)
     {
-      check(cameraWork);
+      check(cameraWork != nullptr);
       cameraWork->OnActivated();
     }
   }
@@ -325,7 +324,7 @@ void UCHCameraWorkStack::DeactivateStack()
     // カメラワークオブジェクトに無効化通知を送る
     for (UCHCameraWork* cameraWork : CameraWorkStack)
     {
-      check(cameraWork);
+      check(cameraWork != nullptr);
       cameraWork->OnDeactivated();
     }
   }
@@ -338,42 +337,203 @@ void UCHCameraWorkStack::PushCameraWork(TSubclassOf<UCHCameraWork> CameraWorkCla
     return;
   }
 
-  UCHCameraWork* cameraWork = GetCameraWorkInstance(CameraWorkClass);
-  check(cameraWork);
+  UCHCameraWork* newCameraWork = GetCameraWorkInstance(CameraWorkClass);
+  check(newCameraWork != nullptr);
 
+  int32 stackSize = CameraWorkStack.Num();
+  // 今トップレイヤーのカメラワークと同じだったら追加をやめる
+  if (stackSize > 0 && CameraWorkStack[0] == newCameraWork)
+  {
+    return;
+  }
 
+  // カメラワークがスタックにあった場合、
+  // それをウェイトを再計算する
+  int32 existStackIndex = INDEX_NONE;
+  float existStackContribution = 1.0f;
+
+  for (int32 stackIdx = 0; stackIdx < stackSize; ++stackIdx)
+  {
+    UCHCameraWork* cameraWork = CameraWorkStack[stackIdx];
+    check(cameraWork != nullptr);
+
+    if (cameraWork == newCameraWork)
+    {
+      existStackIndex = stackIdx;
+      existStackContribution *= newCameraWork->GetBlendWeight();
+      break;
+    }
+    else
+    {
+      existStackContribution *= (1.0f - cameraWork->GetBlendWeight()); 
+    }
+  }
+
+  if (existStackIndex != INDEX_NONE)
+  {
+    CameraWorkStack.RemoveAt(existStackIndex);
+    --stackSize;
+  }
+  else
+  {
+    existStackContribution = 0.0f;
+  }
+
+  // 新しいウェイトを設定
+  const bool bShouldBlend = (newCameraWork->GetBlendTime() > 0.0f) && (stackSize > 0);
+  const float newBlendWeight = (bShouldBlend ? existStackContribution : 1.0f); 
+
+  newCameraWork->SetBlendWeight(newBlendWeight);
+
+  // スタックの上に追加
+  CameraWorkStack.Insert(newCameraWork, 0);
+
+  // 最後尾のカメラワークのウェイトを1.0に設定する
+  CameraWorkStack.Last()->SetBlendWeight(1.0f);
+
+  // 新しく追加したカメラワークに有効化通知を送る
+  if (existStackIndex == INDEX_NONE)
+  {
+    newCameraWork->OnActivated();
+  }
 }
 
 bool UCHCameraWorkStack::EValuateStack(float DeltaTime, FCHCameraWorkView& OutView)
 {
-  return false;
+  if (!m_bIsActive)
+  {
+    return false;
+  }
+
+  TickStack(DeltaTime);
+  BlendStack(/*out*/OutView);
+
+  return true;
 }
 
 void UCHCameraWorkStack::GetBlendInfo(float& OutWeightOfTopLayer, FGameplayTag& OutTagOfTopLayer) const
 {
+  if (CameraWorkStack.Num() == 0)
+  {
+    OutWeightOfTopLayer = 1.0f;
+    OutTagOfTopLayer = FGameplayTag{};
+    return;
+  }
 
+  UCHCameraWork* topLayerCameraWork = CameraWorkStack[0];
+  check(topLayerCameraWork != nullptr);
+
+  OutWeightOfTopLayer = topLayerCameraWork->GetBlendWeight();
+  OutTagOfTopLayer = topLayerCameraWork->GetCameraWorkTypeTag();
 }
 
 #if WITH_EDITOR
 void UCHCameraWorkStack::DrawDebug(UCanvas* canvas) const
 {
+  check(canvas);
 
+  FDisplayDebugManager& displayDebugMgr = canvas->DisplayDebugManager;
+
+  displayDebugMgr.SetDrawColor(FColor::Green);
+  displayDebugMgr.DrawString(FString(TEXT(" --- Camera Work [Begin] --- ")));
+
+  for (const UCHCameraWork* cameraWork : CameraWorkStack)
+  {
+    check(cameraWork != nullptr);
+    cameraWork->DrawDebug(canvas);
+  }
+
+  displayDebugMgr.SetDrawColor(FColor::Green);
+  displayDebugMgr.DrawString(FString(TEXT(" --- Camera Work [End] --- ")));
 }
 #endif
 
 void UCHCameraWorkStack::TickStack(float DeltaTime)
 {
+  const int32 stackSize = CameraWorkStack.Num();
+  if (stackSize <= 0)
+  {
+    return;
+  }
 
+  int32 removeCnt = 0;
+  int32 removeIdx = INDEX_NONE;
+
+  for (int32 stackIdx = 0; stackIdx < stackSize; ++stackIdx)
+  {
+    UCHCameraWork* cameraWork = CameraWorkStack[stackIdx];
+    check(cameraWork != nullptr);
+
+    cameraWork->TickCameraWork(DeltaTime);
+
+    // カメラワークがこれで完結したため
+    // この以降は削除する予定
+    if (cameraWork->GetBlendWeight() >= 1.0f)
+    {
+      removeIdx = stackIdx + 1;
+      removeCnt = stackSize - removeIdx;
+      break;
+    }
+  }
+
+  if (removeCnt > 0)
+  {
+    for (int32 removeStackIdx = removeIdx; removeStackIdx < stackSize; ++removeStackIdx)
+    {
+      UCHCameraWork* removeCameraWork = CameraWorkStack[removeStackIdx];
+      check(removeCameraWork);
+
+      removeCameraWork->OnDeactivated();
+    }
+
+    CameraWorkStack.RemoveAt(removeIdx, removeCnt);
+  }
 }
+
 void UCHCameraWorkStack::BlendStack(FCHCameraWorkView& OutView) const
 {
+  const int32 stackSize = CameraWorkStack.Num();
+  if (stackSize <= 0)
+  {
+    return;
+  }
 
+  // 最後尾からブレンドする
+  const UCHCameraWork* cameraMode = CameraWorkStack[stackSize - 1];
+  check(cameraMode != nullptr);
+
+  OutView = cameraMode->GetCameraWorkView();
+
+  for (int32 stackIdx = stackSize - 2; stackIdx >= 0; --stackIdx)
+  {
+    cameraMode = CameraWorkStack[stackIdx];
+    check(cameraMode != nullptr);
+
+    OutView.Blend(cameraMode->GetCameraWorkView(), cameraMode->GetBlendWeight());
+  }
 }
-UCHCameraWork* UCHCameraWorkStack::GetCameraWorkInstance(TSubclassOf<UCHCameraWork> CameraWorkClass) const
+
+UCHCameraWork* UCHCameraWorkStack::GetCameraWorkInstance(TSubclassOf<UCHCameraWork> CameraWorkClass)
 {
-  return nullptr;
-}
+  check(CameraWorkClass != nullptr);
 
+  // 既存のカメラワークからインスタントを返す
+  for (UCHCameraWork* cameraWork : CameraWorkInstances)
+  {
+    if (cameraWork != nullptr && cameraWork->GetClass() == CameraWorkClass)
+    {
+      return cameraWork;
+    }
+  }
+
+  // 見つからなかったため新しいインスタント生成
+  UCHCameraWork* newCameraWork = NewObject<UCHCameraWork>(GetOuter(), CameraWorkClass);
+  check(newCameraWork != nullptr);
+
+  CameraWorkInstances.Emplace(newCameraWork);
+
+  return newCameraWork;
+}
 
 #pragma endregion UCHCameraWorkStack Definition
 //---End of UCHCameraWorkStack Definition

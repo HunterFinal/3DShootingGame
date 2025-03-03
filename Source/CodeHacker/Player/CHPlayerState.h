@@ -10,7 +10,9 @@
 class AController;
 class ACHPlayerController;
 class UCHPawnData;
-class UAbilitySystemComponent;
+
+class UCHAbilitySystemComponent;
+class UCHHealthSet;
 /**
  * 
  */
@@ -39,7 +41,7 @@ public:
 	ACHPlayerController* GetCHPlayerController() const;
 
 	UFUNCTION(BlueprintCallable, Category = "CodeHacker|PlayerState")
-	UAbilitySystemComponent* GetCHAbilitySystemComponent() const;
+	UCHAbilitySystemComponent* GetCHAbilitySystemComponent() const;
 
 	//---Begin of IAbilitySystemInterface Interface
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -55,7 +57,10 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "CodeHacker|PlayerState")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	TObjectPtr<UCHAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<const UCHHealthSet> HealthSet;
 
 };
 

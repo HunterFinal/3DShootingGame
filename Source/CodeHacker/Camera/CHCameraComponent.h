@@ -23,7 +23,7 @@ Encoding : UTF-8
 /**
  * 
  */
-UCLASS(Config = Game)
+UCLASS(Config = Game, meta = (BlueprintSpawnableComponent))
 class CODEHACKER_API UCHCameraComponent : public UCameraComponent
 {
 	GENERATED_BODY()
@@ -31,7 +31,9 @@ class CODEHACKER_API UCHCameraComponent : public UCameraComponent
 public:
 	UCHCameraComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 	
-public:
+	UFUNCTION(BlueprintPure, Category = "CodeHacker|Camera")
+	static UCHCameraComponent* TryGetCHCameraComponent(const AActor* Actor);
+
 	virtual AActor* GetTargetActor() const
 	{
 		return GetOwner();

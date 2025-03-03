@@ -23,3 +23,8 @@ UCHCameraComponent::UCHCameraComponent(const FObjectInitializer& ObjectInitializ
 {
 }
 
+UCHCameraComponent* UCHCameraComponent::TryGetCHCameraComponent(const AActor* Actor)
+{
+  return (Actor != nullptr) ? (Actor->FindComponentByClass<UCHCameraComponent>()) : nullptr;
+}
+
