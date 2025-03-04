@@ -64,6 +64,15 @@ namespace CodeHackerGameplayTags
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Idle);                // 待機
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_InSky);               // 空中
     CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Moving);              // 移動
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Dying);               // 死亡中
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Dead);                // 死亡
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Respawning);          // 復活中
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Damaged);             // ダメージを受けた
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_CriticalDamaged);     // クリティカルダメージを受けた
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_WeakDamaged);         // 弱点ダメージを受けた
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Immune);              // 無敵
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Dodge);               // 回避
+    CODEHACKER_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(CHAbility_State_Steady);              // 不動（ダメージを受ける）
     #pragma endregion State
     //---End of State
 

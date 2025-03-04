@@ -19,7 +19,7 @@ ACHPlayerState::ACHPlayerState(const FObjectInitializer& ObjectInitializer)
   AbilitySystemComponent = ObjectInitializer.CreateDefaultSubobject<UCHAbilitySystemComponent>(this, TEXT("AbilitySystemComponent"));
 
   // Create AttributeSet
-  // How can this bind to ASC???
+  // AbilitySystem::InitializeComponentでサブオブジェクトを検索し、AttributeSetを見つけたら登録する
   HealthSet = CreateDefaultSubobject<UCHHealthSet>(TEXT("HealthSet"));
 }
 

@@ -60,6 +60,15 @@ namespace CodeHackerGameplayTags
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Idle, "CHAbility.State.Idle", "待機");
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_InSky, "CHAbility.State.InSky", "空中");
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Moving, "CHAbility.State.Moving", "移動");
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Dying, "CHAbility.State.Dying", "死亡中");
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Dead, "CHAbility.State.Dead", "死亡");
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Respawning, "CHAbility.State.Respawning", "再生中");          
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Damaged, "CHAbility.State.Damaged", "ダメージを受けた");              
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_CriticalDamaged, "CHAbility.State.CriticalDamaged", "クリティカルダメージを受けた");      
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_WeakDamaged, "CHAbility.State.WeakDamaged", "弱点ダメージを受けた");         
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Immune, "CHAbility.State.Immune", "無敵");               
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Dodge, "CHAbility.State.Immune", "回避");                
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Steady "CHAbility.State.Steady", "不動（ダメージを受ける）");              
   #pragma endregion State
   //---End of State
   
