@@ -33,6 +33,7 @@ void ACHPlayerState::PostInitializeComponents()
   Super::PostInitializeComponents();
 
   check(AbilitySystemComponent != nullptr);
+
   AbilitySystemComponent->InitAbilityActorInfo(this, GetPawn());
 }
 

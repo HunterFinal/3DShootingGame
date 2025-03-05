@@ -34,8 +34,41 @@ UAbilitySystemComponent* UCodeHackerPawnExtensionComponent::GetAbilitySystemComp
 	return AbilitySystemComponent;
 }
 
+UCodeHackerPawnExtensionComponent* UCodeHackerPawnExtensionComponent::FindPawnExtensionComponent(const AActor* Actor)
+{
+	return (Actor != nullptr) ? (Actor->FindComponentByClass<UCodeHackerPawnExtensionComponent>()) : nullptr;
+}
+
 void UCodeHackerPawnExtensionComponent::InitializeAbilitySystem(UAbilitySystemComponent* InASC, AActor* InOwnerActor)
 {
+	check(InASC != nullptr);
+	check(InOwnerActor != nullptr);
+
+	if (AbilitySystemComponent == InASC)
+	{
+		return;
+	}
+
+	if (AbilitySystemComponent != nullptr)
+	{
+		UninitializeAbilitySystem();
+	}
+
+	APawn* newAvatarPawn = GetPawnChecked<APawn>();
+	AActor* prevAvatar = InASC->GetAvatarActor();
+
+	// 前に入ってたアバターがこのコンポーネントを持っていると終了処理する
+	if ((prevAvatar != nullptr) && (prevAvatar != newAvatarPawn))
+	{
+		UCodeHackerPawnExtensionComponent* prevAvatarPawnExtComp = FindPawnExtensionComponent(prevAvatar);
+		if (prevAvatarPawnExtComp != nullptr)
+		{
+			prevAvatarPawnExtComp->UninitializeAbilitySystem();
+		}
+	}
+
+	AbilitySystemComponent = InASC;
+	AbilitySystemComponent->InitAbilityActorInfo(InOwnerActor, newAvatarPawn);
 
 }
 

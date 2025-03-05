@@ -6,10 +6,11 @@
 
 #include "CHInitComponent.generated.h"
 
+class UCHAbilitySystemComponent;
 /**
  * 
  */
-UCLASS(Abstract)
+UCLASS(Blueprintable, ClassGroup = (CodeHacker) ,meta = (BlueprintSpawnableComponent))
 class CODEHACKER_API UCHInitComponent : public UCHPawnComponent
 {
 	GENERATED_BODY()
@@ -20,4 +21,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = "CodeHacker|PawnInitialization")
 	static UCHInitComponent* FindInitComponent(const APawn* pawn);
 
+protected:
+
+	virtual void OnRegister() override;
+	virtual void BeginPlay() override;
+
+private:
+
+	void ValidationASC() const;
+
+private:
+
+	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init")
+	TSubclassOf<UCHAbilitySystemComponent> AbilitySystemComponentClass;
 };

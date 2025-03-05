@@ -9,6 +9,10 @@
 
 class UCHSpringArmComponent;
 class UCHCameraComponent;
+
+class UCHAbilitySystemComponent;
+class UCodeHackerPawnExtensionComponent;
+
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
@@ -30,6 +34,9 @@ public:
 	//---Begin of IAbilitySystemInterface Interface
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override final;
 	//---End of IAbilitySystemInterface Interface
+
+	UFUNCTION(BlueprintCallable, Category = "CodeHacker|Character")
+	UCHAbilitySystemComponent* GetCHAbilitySystemComponent() const;
 
 private:
 	/** Camera boom positioning the camera behind the character */
@@ -61,6 +68,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<class UCHEquipmentManagerComponent> EquipmentManagerComp;
+
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<class UCodeHackerPawnExtensionComponent> PawnExtComponent;
 
 protected:
 

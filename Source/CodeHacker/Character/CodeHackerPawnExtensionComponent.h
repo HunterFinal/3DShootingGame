@@ -19,21 +19,24 @@ class CODEHACKER_API UCodeHackerPawnExtensionComponent : public UCHPawnComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
+
 	UCodeHackerPawnExtensionComponent(const FObjectInitializer& ObjectInitializer);
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-	UFUNCTION(BlueprintPure, Category = "CodeHacker|Pawn")
+	UFUNCTION(BlueprintPure, Category = "CodeHacker|PawnExt")
 	UAbilitySystemComponent* GetAbilitySystemComponent() const;
+
+	UFUNCTION(BlueprintCallable, Category = "CodeHacker|PawnExt")
+	static UCodeHackerPawnExtensionComponent* FindPawnExtensionComponent(const AActor* Actor);
 
 	void InitializeAbilitySystem(UAbilitySystemComponent* InASC, AActor* InOwnerActor);
 
 	void UninitializeAbilitySystem();
 
 	void HandleControllerChanged();
+
+protected:
+
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Code Hacker|Gameplay Ability")

@@ -68,7 +68,7 @@ namespace CodeHackerGameplayTags
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_WeakDamaged, "CHAbility.State.WeakDamaged", "弱点ダメージを受けた");         
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Immune, "CHAbility.State.Immune", "無敵");               
   UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Dodge, "CHAbility.State.Immune", "回避");                
-  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Steady "CHAbility.State.Steady", "不動（ダメージを受ける）");              
+  UE_DEFINE_GAMEPLAY_TAG_COMMENT(CHAbility_State_Steady, "CHAbility.State.Steady", "不動（ダメージを受ける）");              
   #pragma endregion State
   //---End of State
   

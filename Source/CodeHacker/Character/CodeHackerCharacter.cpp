@@ -3,6 +3,9 @@
 #include "CodeHackerCharacter.h"
 #include "Engine/LocalPlayer.h"
 
+#include "Player/CHPlayerState.h"
+#include "CodeHackerPawnExtensionComponent.h"
+
 #include "Camera/CHCameraComponent.h"
 #include "Camera/CHSpringArmComponent.h"
 
@@ -18,7 +21,11 @@
 #include "Weapon/CHEquipmentInstance.h"
 #include "Weapon/CHEquipmentManagerComponent.h"
 
+#include "AbilitySystem/CHAbilitySystemComponent.h"
+
 DEFINE_LOG_CATEGORY(LogTemplateCharacter);
+
+#include UE_INLINE_GENERATED_CPP_BY_NAME(CodeHackerCharacter)
 
 //////////////////////////////////////////////////////////////////////////
 // ACodeHackerCharacter
@@ -59,6 +66,9 @@ ACodeHackerCharacter::ACodeHackerCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	EquipmentManagerComp = CreateDefaultSubobject<UCHEquipmentManagerComponent>(TEXT("Equipment Manager"));
+
+	PawnExtComponent = CreateDefaultSubobject<UCodeHackerPawnExtensionComponent>(TEXT("CH PawnExtension Component"));
+
 }
 
 void ACodeHackerCharacter::PossessedBy(AController* NewController)
@@ -66,11 +76,20 @@ void ACodeHackerCharacter::PossessedBy(AController* NewController)
 	Super::PossessedBy(NewController);
 }
 
-UAbilitySystemComponent* ACodeHackerCharacter::GetAbilitySystemComponent() const
+UCHAbilitySystemComponent* ACodeHackerCharacter::GetCHAbilitySystemComponent() const
 {
+	if (const ACHPlayerState* playerState = GetPlayerState<ACHPlayerState>())
+	{
+		return playerState->GetCHAbilitySystemComponent();
+	}
+
 	return nullptr;
 }
 
+UAbilitySystemComponent* ACodeHackerCharacter::GetAbilitySystemComponent() const
+{
+	return GetCHAbilitySystemComponent();
+}
 
 void ACodeHackerCharacter::BeginPlay()
 {
@@ -102,8 +121,8 @@ void ACodeHackerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		
 		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+		// EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+		// EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
 
 		// Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ACodeHackerCharacter::Move);
