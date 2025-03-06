@@ -17,6 +17,7 @@ class CODEHACKER_API UCHHealthSet : public UCHAttributeSet
 	GENERATED_BODY()
 
 public:
+
 	UCHHealthSet();
 
 	ATTRIBUTE_ACCESSORS(UCHHealthSet, Health);

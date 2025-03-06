@@ -31,12 +31,42 @@ struct FGameplayEffectSpec;
 
 using FCHAttributeDelegate = TMulticastDelegate<void(AActor* /** EffectInstigator*/, AActor* /**EffectCauser */, const FGameplayEffectSpec* /**EffectSpec */, float /**EffectMagnitude */, float /**OldValue */, float /**NewValue */)>;
 
+using FOnAttributeChangedDelegate = TMulticastDelegate<void(float /**OldValue */, float /**NewValue */)>;
+
+USTRUCT(BlueprintType)
+struct CODEHACKER_API FCHGameplayAttributeData : public FGameplayAttributeData
+{
+	GENERATED_BODY()
+
+	FCHGameplayAttributeData()
+		: Super()
+	{}
+
+	FCHGameplayAttributeData(float DefaultValue)
+		: Super(DefaultValue)
+	{}
+
+	virtual ~FCHGameplayAttributeData()
+	{}
+
+	virtual void SetCurrentValue(float NewValue) override;
+	virtual void SetBaseValue(float NewValue) override;
+
+	FOnAttributeChangedDelegate OnCurrentValueChanged;
+	FOnAttributeChangedDelegate OnBaseValueChanged;
+};
+
+
+
+
+
 UCLASS()
 class CODEHACKER_API UCHAttributeSet : public UAttributeSet
 {
 	GENERATED_BODY()
 	
 public:
+
 	UCHAttributeSet();
 
 	UWorld* GetWorld() const override final;

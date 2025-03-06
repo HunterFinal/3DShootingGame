@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+
 #include "CHAbilitySystemComponent.generated.h"
 
 /**

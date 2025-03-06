@@ -8,6 +8,7 @@
 
 class ACharacter;
 class UCHAbilitySystemComponent;
+class UCHAbilityCost;
 /**
  * 
  */
@@ -29,4 +30,9 @@ protected:
 	///---Begin of UGameplayAbility
 	virtual bool CanActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayTagContainer* SourceTags, const FGameplayTagContainer* TargetTags, OUT FGameplayTagContainer* OptionalRelevantTags) const override;
 	///---End of UGameplayAbility
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ability|Advanced")
+	TArray<TObjectPtr<UCHAbilityCost>> AdditionalCosts;
 };
