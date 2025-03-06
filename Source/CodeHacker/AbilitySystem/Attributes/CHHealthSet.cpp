@@ -16,21 +16,21 @@ UCHHealthSet::UCHHealthSet()
 
 bool UCHHealthSet::PreGameplayEffectExecute(FGameplayEffectModCallbackData& Data)
 {
-  return true;
+  return Super::PreGameplayEffectExecute(Data);
 }
 void UCHHealthSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
-
+  Super::PostGameplayEffectExecute(Data);
 }
 void UCHHealthSet::PreAttributeBaseChange(const FGameplayAttribute& Attribute, float& NewValue) const
 {
-
+  Super::PreAttributeBaseChange(Attribute, NewValue);
 }
 void UCHHealthSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
-
+  Super::PreAttributeChange(Attribute, NewValue);
 }
 void UCHHealthSet::PostAttributeChange(const FGameplayAttribute& Attribute, float OldValue, float NewValue)
 {
-  
+  Super::PostAttributeChange(Attribute, OldValue, NewValue);
 }

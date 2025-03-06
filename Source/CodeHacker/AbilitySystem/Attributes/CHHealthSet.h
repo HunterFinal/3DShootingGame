@@ -25,9 +25,9 @@ public:
 	ATTRIBUTE_ACCESSORS(UCHHealthSet, Healing);
 	ATTRIBUTE_ACCESSORS(UCHHealthSet, Damage);
 
-	FCHAttributeDelegate OnHealthChanged;
-	FCHAttributeDelegate OnMaxHealthChanged;
-	FCHAttributeDelegate OnOutOfHealth;
+	mutable FCHAttributeDelegate OnHealthChanged;
+	mutable FCHAttributeDelegate OnMaxHealthChanged;
+	mutable FCHAttributeDelegate OnOutOfHealth;
 
 protected:
 

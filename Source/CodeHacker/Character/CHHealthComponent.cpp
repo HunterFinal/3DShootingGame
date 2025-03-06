@@ -65,11 +65,9 @@ void UCHHealthComponent::InitializeWithAbilitySystem(UCHAbilitySystemComponent* 
 	}
 
 	// UCHHealthSetの変化を監視するデリゲートを登録
-	UCHHealthSet* mutableHealthSet = const_cast<UCHHealthSet*>(HealthSet.Get());
-
-	mutableHealthSet->OnHealthChanged.AddUObject(this, &ThisClass::HandleHealthChanged);
-	mutableHealthSet->OnMaxHealthChanged.AddUObject(this, &ThisClass::HandleMaxHealthChanged);
-	mutableHealthSet->OnOutOfHealth.AddUObject(this, &ThisClass::HandleOutOfHealth);
+	HealthSet->OnHealthChanged.AddUObject(this, &ThisClass::HandleHealthChanged);
+	HealthSet->OnMaxHealthChanged.AddUObject(this, &ThisClass::HandleMaxHealthChanged);
+	HealthSet->OnOutOfHealth.AddUObject(this, &ThisClass::HandleOutOfHealth);
 
 	// Reset Attributes to default values;
 	AbilitySystemComponent->SetNumericAttributeBase(UCHHealthSet::GetHealthAttribute(), HealthSet->GetMaxHealth());
@@ -83,11 +81,9 @@ void UCHHealthComponent::UninitializeFromAbilitySystem()
 {
 	if (HealthSet != nullptr)
 	{
-		UCHHealthSet* mutableHealthSet = const_cast<UCHHealthSet*>(HealthSet.Get());
-
-		mutableHealthSet->OnHealthChanged.RemoveAll(this);
-		mutableHealthSet->OnMaxHealthChanged.RemoveAll(this);
-		mutableHealthSet->OnOutOfHealth.RemoveAll(this);
+		HealthSet->OnHealthChanged.RemoveAll(this);
+		HealthSet->OnMaxHealthChanged.RemoveAll(this);
+		HealthSet->OnOutOfHealth.RemoveAll(this);
 	}
 
 	HealthSet = nullptr;

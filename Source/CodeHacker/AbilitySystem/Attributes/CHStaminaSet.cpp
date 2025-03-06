@@ -7,3 +7,8 @@
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CHStaminaSet)
 
+UCHStaminaSet::UCHStaminaSet()
+  : Stamina(100.0f)
+  , MaxStamina(100.0f)
+{
+}
