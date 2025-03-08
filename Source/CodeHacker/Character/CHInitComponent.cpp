@@ -3,15 +3,20 @@
 
 #include "CHInitComponent.h"
 
+#include "Engine/LocalPlayer.h"
 #include "GameFramework/Pawn.h"
 #include "Player/CHPlayerState.h"
 #include "AbilitySystem/CHAbilitySystemComponent.h"
 #include "Character/CodeHackerPawnExtensionComponent.h"
 
+#include "Input/CHInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CHInitComponent)
 
 UCHInitComponent::UCHInitComponent(const FObjectInitializer& ObjectInitializer)
   : Super(ObjectInitializer)
+  , bUseASC(false)
   , AbilitySystemComponentClass(nullptr)
 {
 }
@@ -38,6 +43,14 @@ void UCHInitComponent::BeginPlay()
 {
   Super::BeginPlay();
 
+  // ASCを初期化
+  InitializeASC();
+  // インプットを初期化
+  InitializeInput();
+}
+
+void UCHInitComponent::InitializeASC()
+{
   APawn* ownerPawn = GetPawnChecked<APawn>();
   ACHPlayerState* playerState = ownerPawn->GetPlayerState<ACHPlayerState>();
 
@@ -47,7 +60,7 @@ void UCHInitComponent::BeginPlay()
   {
     ValidationASC();
 
-    ASC = NewObject<UCHAbilitySystemComponent>(ownerPawn, AbilitySystemComponentClass);
+    ASC = NewObject<UCHAbilitySystemComponent>(/**Component Outer */ownerPawn, AbilitySystemComponentClass);
     ASC->RegisterComponent();
 
   }
@@ -61,11 +74,68 @@ void UCHInitComponent::BeginPlay()
   UCodeHackerPawnExtensionComponent* pawnExtComp = ownerPawn->GetComponentByClass<UCodeHackerPawnExtensionComponent>();
   check(pawnExtComp != nullptr);
 
-  pawnExtComp->InitializeAbilitySystem(ASC, ownerPawn);
+  const bool bIsLocallyControlled = ownerPawn->IsLocallyControlled();
+  const bool bIsBot = ownerPawn->IsBotControlled();
+
+  // PlayerのASC所有者はPlayerState
+  if (bIsLocallyControlled && !bIsBot)
+  {
+    pawnExtComp->InitializeAbilitySystem(ASC, playerState);
+  }
+  // 敵AIのASC所有者は敵Pawn自身
+  else
+  {
+    pawnExtComp->InitializeAbilitySystem(ASC, ownerPawn);
+  }
 }
+
+void UCHInitComponent::InitializeInput()
+{
+  const APawn* ownerPawn = GetPawnChecked<APawn>();
+  const bool bIsLocallyControlled = ownerPawn->IsLocallyControlled();
+  const bool bIsBot = ownerPawn->IsBotControlled();
+
+  if (bIsLocallyControlled && !bIsBot)
+  {
+    UInputComponent* inputComponent = ownerPawn->InputComponent;
+    if (inputComponent != nullptr)
+    {
+      InitializePlayerInput_Implementation(inputComponent);
+    }
+  }
+}
+
+void UCHInitComponent::InitializePlayerInput_Implementation(UInputComponent* PlayerInputComponent)
+{
+  check(PlayerInputComponent != nullptr);
+
+  const APawn* playerPawn = GetPawnChecked<APawn>();
+
+  const APlayerController* playerController = playerPawn->GetController<APlayerController>();
+  check(playerController != nullptr);
+
+  const ULocalPlayer* localPlayer = playerController->GetLocalPlayer();
+  check(localPlayer != nullptr);
+  
+  UEnhancedInputLocalPlayerSubsystem* inputSubsystem = localPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
+  check(inputSubsystem != nullptr);
+
+  UCodeHackerPawnExtensionComponent* pawnExtComp = playerPawn->GetComponentByClass<UCodeHackerPawnExtensionComponent>();
+  if(pawnExtComp != nullptr)
+  {
+    const UCHPawnData* pawnData = pawnExtComp->GetPawnData();
+  }
+}
+
+
 
 void UCHInitComponent::ValidationASC() const
 {
+  if (!bUseASC)
+  {
+    return;
+  }
+
   ensureAlwaysMsgf((AbilitySystemComponentClass != nullptr), TEXT("CHInitComponent on [%s] needs to set Parameter of AbilitySystemComponentClass"), *GetNameSafe(GetOwner()));
 
   const APawn* owner = GetPawnChecked<APawn>();

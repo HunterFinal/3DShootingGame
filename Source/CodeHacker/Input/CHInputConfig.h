@@ -39,10 +39,16 @@ class CODEHACKER_API UCHInputConfig : public UDataAsset
 public:
 	UCHInputConfig(const FObjectInitializer& ObjectInitializer);
 
-	UFUNCTION(BlueprintCallable, Category = "Code Hacker|Input")
+	UFUNCTION(BlueprintCallable, Category = "CodeHacker|InputConfig")
 	const UInputAction* FindNativeInputActionByTag(const FGameplayTag& InputTag, bool bLogNotFound = true) const;
+
+	UFUNCTION(BlueprintCallable, Category = "CodeHacker|InputConfig")
+	const UInputAction* FindAbilityInputActionByTag(const FGameplayTag& InputTag, bool bLogNotFound = true) const;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputAction"))
 	TArray<FCHInputAction> NativeInputActions;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "AbilityAction"))
+	TArray<FCHInputAction> AbilityInputActions;
 	
 };

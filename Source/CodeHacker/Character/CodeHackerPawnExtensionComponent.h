@@ -7,6 +7,7 @@
 #include "CodeHackerPawnExtensionComponent.generated.h"
 
 class UAbilitySystemComponent;
+class UCHPawnData;
 
 /**
  * Code Hacker Pawnにあるコンポネントを初期化するコンポネント 
@@ -39,6 +40,10 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
 	UPROPERTY(VisibleAnywhere, Category = "Code Hacker|Gameplay Ability")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	UPROPERTY()
+	TObjectPtr<const UCHPawnData> PawnData;
 };

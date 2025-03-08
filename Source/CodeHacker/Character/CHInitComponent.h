@@ -7,6 +7,7 @@
 #include "CHInitComponent.generated.h"
 
 class UCHAbilitySystemComponent;
+class UInputComponent;
 /**
  * 
  */
@@ -28,10 +29,25 @@ protected:
 
 private:
 
+	/**AbilitySystemComponentを初期化する */
+	void InitializeASC();
+	/**インプットを初期化する */
+	void InitializeInput();
+
+	void InitializePlayerInput_Implementation(UInputComponent* PlayerInputComponent);
+
+	/**
+	 * プロパティのAbilitySystemComponentClassの有効性チェック
+	 * ///---敵AIなど(プレイヤー以外)しかチェックしない---///
+	 * ///---プレイヤーのASCはPlayerStateで作成済み---///
+	 */
 	void ValidationASC() const;
 
 private:
 
-	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init")
+	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init", meta = (DisplayName = "AI Use Ability System Component"))
+	bool bUseASC;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init", meta = (EditCondition = "bUseASC == true", EditConditionHides))
 	TSubclassOf<UCHAbilitySystemComponent> AbilitySystemComponentClass;
 };
