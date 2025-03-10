@@ -58,7 +58,7 @@ bool UCHGameplayAbility::CanActivateAbility(const FGameplayAbilitySpecHandle Han
 
 void UCHGameplayAbility::SetCameraWork(TSubclassOf<UCHCameraWork> CameraWorkClass)
 {
-  ENSURE_ABILITY_IS_INSTANTIATED_OR_RETURN(SetCameraWork, );
+  //ENSURE_ABILITY_IS_INSTANTIATED_OR_RETURN(SetCameraWork, );
 }
 
 void UCHGameplayAbility::ClearCameraWork()

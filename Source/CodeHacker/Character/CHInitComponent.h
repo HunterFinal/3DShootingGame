@@ -8,6 +8,8 @@
 
 class UCHAbilitySystemComponent;
 class UInputComponent;
+struct FCHInputMappingContextAndPriority;
+struct FGameplayTag;
 /**
  * 
  */
@@ -43,11 +45,17 @@ private:
 	 */
 	void ValidationASC() const;
 
+	void Input_AbilityInputPressed(FGameplayTag InputTag);
+	void Input_AbilityInputReleased(FGameplayTag InputTag);
+
 private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init", meta = (DisplayName = "AI Use Ability System Component"))
-	bool bUseASC;
+	bool bAIUseASC;
 
-	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init", meta = (EditCondition = "bUseASC == true", EditConditionHides))
+	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init", meta = (EditCondition = "bAIUseASC == true", EditConditionHides))
 	TSubclassOf<UCHAbilitySystemComponent> AbilitySystemComponentClass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "CodeHacker|Init|Input", meta = (EditCondition = "bAIUseASC == false", EditConditionHides, DisplayName = "Player Default Input Mappings"))
+	TArray<FCHInputMappingContextAndPriority> DefaultInputMappings;
 };

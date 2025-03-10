@@ -13,3 +13,13 @@ ACHPlayerController::ACHPlayerController(const FObjectInitializer& ObjectInitial
   PlayerCameraManagerClass = ACHPlayerCameraManager::StaticClass();
 }
 
+void ACHPlayerController::PreProcessInput(const float DeltaTime, const bool bGamePaused)
+{
+  Super::PreProcessInput(DeltaTime, bGamePaused);
+}
+
+void ACHPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
+{
+  Super::PostProcessInput(DeltaTime, bGamePaused);
+}
+

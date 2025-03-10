@@ -6,7 +6,7 @@
 
 #include "CodeHackerPawnExtensionComponent.generated.h"
 
-class UAbilitySystemComponent;
+class UCHAbilitySystemComponent;
 class UCHPawnData;
 
 /**
@@ -24,12 +24,15 @@ public:
 	UCodeHackerPawnExtensionComponent(const FObjectInitializer& ObjectInitializer);
 
 	UFUNCTION(BlueprintPure, Category = "CodeHacker|PawnExt")
-	UAbilitySystemComponent* GetAbilitySystemComponent() const;
-
+	UCHAbilitySystemComponent* GetCHAbilitySystemComponent() const;
+	
 	UFUNCTION(BlueprintCallable, Category = "CodeHacker|PawnExt")
 	static UCodeHackerPawnExtensionComponent* FindPawnExtensionComponent(const AActor* Actor);
 
-	void InitializeAbilitySystem(UAbilitySystemComponent* InASC, AActor* InOwnerActor);
+	template<typename PawnDataType>
+	const PawnDataType* GetPawnData() const;
+
+	void InitializeAbilitySystem(UCHAbilitySystemComponent* InASC, AActor* InOwnerActor);
 
 	void UninitializeAbilitySystem();
 
@@ -41,9 +44,15 @@ protected:
 
 private:
 
-	UPROPERTY(VisibleAnywhere, Category = "Code Hacker|Gameplay Ability")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+	UPROPERTY(VisibleAnywhere, Category = "CodeHacker|GameplayAbility")
+	TObjectPtr<UCHAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY()
 	TObjectPtr<const UCHPawnData> PawnData;
 };
+
+template<typename PawnDataType>
+const PawnDataType* UCodeHackerPawnExtensionComponent::GetPawnData() const
+{
+	return Cast<PawnDataType>(PawnData);
+}

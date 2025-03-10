@@ -15,5 +15,11 @@ class CODEHACKER_API ACHPlayerController : public APlayerController
 	GENERATED_BODY()
 	
 public:
+
 	ACHPlayerController(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	//---Begin of APlayerController Interface
+	virtual void PreProcessInput(const float DeltaTime, const bool bGamePause) override;
+	virtual void PostProcessInput(const float DeltaTime, const bool bGamePause) override;
+	//---End of APlayerController Interface
 };

@@ -8,15 +8,19 @@
 #include "Player/CHPlayerState.h"
 #include "AbilitySystem/CHAbilitySystemComponent.h"
 #include "Character/CodeHackerPawnExtensionComponent.h"
+#include "Character/CHPawnData.h"
 
 #include "Input/CHInputComponent.h"
+#include "Input/CHInputMappingContextAndPriority.h"
+
 #include "EnhancedInputSubsystems.h"
+#include "UserSettings/EnhancedInputUserSettings.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CHInitComponent)
 
 UCHInitComponent::UCHInitComponent(const FObjectInitializer& ObjectInitializer)
   : Super(ObjectInitializer)
-  , bUseASC(false)
+  , bAIUseASC(false)
   , AbilitySystemComponentClass(nullptr)
 {
 }
@@ -120,18 +124,86 @@ void UCHInitComponent::InitializePlayerInput_Implementation(UInputComponent* Pla
   UEnhancedInputLocalPlayerSubsystem* inputSubsystem = localPlayer->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>();
   check(inputSubsystem != nullptr);
 
+  inputSubsystem->ClearAllMappings();
+
   UCodeHackerPawnExtensionComponent* pawnExtComp = playerPawn->GetComponentByClass<UCodeHackerPawnExtensionComponent>();
   if(pawnExtComp != nullptr)
   {
-    const UCHPawnData* pawnData = pawnExtComp->GetPawnData();
+    const UCHPawnData* pawnData = pawnExtComp->GetPawnData<UCHPawnData>();
+    if (pawnData != nullptr)
+    {
+      const UCHInputConfig* inputConfig = pawnData->InputConfig;
+      if (inputConfig != nullptr)
+      {
+        for (const FCHInputMappingContextAndPriority& mapping : DefaultInputMappings)
+        {
+          UInputMappingContext* imc = mapping.InputMapping.Get();
+          if (imc != nullptr)
+          {
+            UEnhancedInputUserSettings* settings = inputSubsystem->GetUserSettings();
+            if (settings != nullptr)
+            {
+              settings->RegisterInputMappingContext(imc);
+            }
+
+            FModifyContextOptions options{};
+            options.bIgnoreAllPressedKeysUntilRelease = false;
+
+            // ローカルプレイヤーにIMCを追加する
+            inputSubsystem->AddMappingContext(imc, mapping.Priority, options);
+          }
+        }
+
+        UCHInputComponent* chInputComp = Cast<UCHInputComponent>(PlayerInputComponent);
+        if (ensureMsgf(chInputComp, TEXT("Unexpect Input Component class, Gameplay Abilities will not be bound to input.Change input component to UCHInputComponent or a subclass of it")))
+        {
+          chInputComp->AddInputMappings(inputConfig, inputSubsystem);
+
+          chInputComp->BindAbilityActions(inputConfig, this, &ThisClass::Input_AbilityInputPressed, &ThisClass::Input_AbilityInputReleased);
+
+
+        }
+      }
+    }
   }
 }
 
+void UCHInitComponent::Input_AbilityInputPressed(FGameplayTag InputTag)
+{
+  const APawn* ownerPawn = GetPawn<APawn>();
+  if (ownerPawn != nullptr)
+  {
+    UCodeHackerPawnExtensionComponent* pawnExt = UCodeHackerPawnExtensionComponent::FindPawnExtensionComponent(ownerPawn);
+    if (pawnExt != nullptr)
+    {
+      UCHAbilitySystemComponent* asc = pawnExt->GetCHAbilitySystemComponent();
+      if (asc != nullptr)
+      {
+        asc->AbilityInputTagPressed(InputTag);
+      }
+    }
+  }
+}
 
-
+void UCHInitComponent::Input_AbilityInputReleased(FGameplayTag InputTag)
+{
+  const APawn* ownerPawn = GetPawn<APawn>();
+  if (ownerPawn != nullptr)
+  {
+    UCodeHackerPawnExtensionComponent* pawnExt = UCodeHackerPawnExtensionComponent::FindPawnExtensionComponent(ownerPawn);
+    if (pawnExt != nullptr)
+    {
+      UCHAbilitySystemComponent* asc = pawnExt->GetCHAbilitySystemComponent();
+      if (asc != nullptr)
+      {
+        asc->AbilityInputTagReleased(InputTag);
+      }
+    }
+  }
+}
 void UCHInitComponent::ValidationASC() const
 {
-  if (!bUseASC)
+  if (!bAIUseASC)
   {
     return;
   }

@@ -35,7 +35,7 @@ const UInputAction* UCHInputConfig::FindAbilityInputActionByTag(const FGameplayT
   if (!InputTag.IsValid() && bLogNotFound)
   {
     UE_LOG(LogCodeHackerInputAction, Error, TEXT("InputTag is Invalid"));
-    return;
+    return nullptr;
   }
 
   for (const FCHInputAction& inputAction : AbilityInputActions)

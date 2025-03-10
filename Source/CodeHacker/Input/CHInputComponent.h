@@ -27,7 +27,7 @@ public:
 	void BindNativeAction(const UCHInputConfig* InputConfig, const FGameplayTag& InputTag, ETriggerEvent TriggerEvent, UserClass* UserObject, FuncType TriggerFunc, bool bLogIfNotFound);
 
 	template<typename UserClass, typename PressedFuncType, typename ReleasedFuncType>
-	void BindAbilityAction(const UCHInputConfig* InputConfig, UserClass* UserObject, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc);
+	void BindAbilityActions(const UCHInputConfig* InputConfig, UserClass* UserObject, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc);
 
 	void RemoveBinds(TArray<uint32>& bindHandles);
 };
@@ -46,7 +46,7 @@ void UCHInputComponent::BindNativeAction(const UCHInputConfig* InputConfig, cons
 }
 
 template<typename UserClass, typename PressedFuncType, typename ReleasedFuncType>
-void UCHInputComponent::BindAbilityAction(const UCHInputConfig* InputConfig, UserClass* UserObject, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc)
+void UCHInputComponent::BindAbilityActions(const UCHInputConfig* InputConfig, UserClass* UserObject, PressedFuncType PressedFunc, ReleasedFuncType ReleasedFunc)
 {
 	check(InputConfig != nullptr);
 

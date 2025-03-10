@@ -2,7 +2,7 @@
 
 
 #include "CodeHackerPawnExtensionComponent.h"
-#include "AbilitySystemComponent.h"
+#include "AbilitySystem/CHAbilitySystemComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CodeHackerPawnExtensionComponent)
 
@@ -29,7 +29,7 @@ void UCodeHackerPawnExtensionComponent::BeginPlay()
 	
 }
 
-UAbilitySystemComponent* UCodeHackerPawnExtensionComponent::GetAbilitySystemComponent() const
+UCHAbilitySystemComponent* UCodeHackerPawnExtensionComponent::GetCHAbilitySystemComponent() const
 {
 	return AbilitySystemComponent;
 }
@@ -39,7 +39,7 @@ UCodeHackerPawnExtensionComponent* UCodeHackerPawnExtensionComponent::FindPawnEx
 	return (Actor != nullptr) ? (Actor->FindComponentByClass<UCodeHackerPawnExtensionComponent>()) : nullptr;
 }
 
-void UCodeHackerPawnExtensionComponent::InitializeAbilitySystem(UAbilitySystemComponent* InASC, AActor* InOwnerActor)
+void UCodeHackerPawnExtensionComponent::InitializeAbilitySystem(UCHAbilitySystemComponent* InASC, AActor* InOwnerActor)
 {
 	check(InASC != nullptr);
 	check(InOwnerActor != nullptr);

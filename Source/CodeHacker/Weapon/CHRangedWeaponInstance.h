@@ -34,7 +34,7 @@ public:
 	int32 GetBulletsPerCartridge() const;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment|Ranged Weapon|Config")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Equipment|RangedWeapon|Config")
 	int32 BulletsPerCartridge;
 	
 };
