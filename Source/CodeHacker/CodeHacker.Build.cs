@@ -27,10 +27,11 @@ public class CodeHacker : ModuleRules
 				"EnhancedInput", 
 				"MLibrary", 
 				"Niagara",
-				"GameplayTags",						// Use of FGameplayTag
+				"GameplayTags",						// FGameplayTag Use
 				"GameplayAbilities",
 				"GameplayTasks",
 				"MStateMachine",
+				"AIModule",								// Behaviour Tree Use
 			}
 		);
 

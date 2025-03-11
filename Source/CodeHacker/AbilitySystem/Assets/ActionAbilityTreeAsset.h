@@ -8,54 +8,71 @@
 #include "ActionAbilityTreeAsset.generated.h"
 
 class UGameplayAbility;
-class UActionAbilityNode;
 
-USTRUCT(BlueprintType)
-struct FActionAbilityNodeBranchDefinition
+USTRUCT()
+struct FActionAbilityChainNodeOverrideTags
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityNode|Definition")
-	TSubclassOf<UActionAbilityNode> NodeClass;
-
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityNode|Definition")
-	int32 Priority;
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbiliyChain|Tags")
+	FGameplayTagContainer CancelAbilitiesWithTag;
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbiliyChain|Tags")
+	FGameplayTagContainer BlockAbilitiesWithTag;
 };
 
 USTRUCT(BlueprintType)
-struct FActionAbilityNodeInfo
+struct FActionAbilityNode
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityNode")
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityNode")
 	TSubclassOf<UGameplayAbility> AbilityClass;
 
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityNode")
+	bool bUseAbilityTagSettings = true;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityNode", meta = (EditCondition = "bUseAbilityTagSettings == false", EditConditionHides))
+	FActionAbilityChainNodeOverrideTags OverrideTags;
+
 };
 
-UCLASS(BlueprintType, BlueprintAble, Const, Abstract)
-class UActionAbilityNode : public UObject
+USTRUCT(BlueprintType)
+struct FActionAbilityNode_Chain
 {
 	GENERATED_BODY()
 
-public:
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityChain|Node")
+	FActionAbilityNode ChainNode;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityNode")
-	FActionAbilityNodeInfo CurrentAbilityInfo;
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityChain|Node", meta = (ShortTooltip = "値が大きければ大きいほどチェーンの後ろに回される"))
+	uint32 ChainPriority;
+};
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityNode")
-	TArray<FActionAbilityNodeBranchDefinition> BranchDefinitions;
+USTRUCT(BlueprintType)
+struct FActionAbilityChain
+{
+
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityChain")
+	TArray<FActionAbilityNode_Chain> ChainNodes;
 };
 
 
-UCLASS(meta = (DisplayName = "Action Ability Tree"))
-class CODEHACKER_API UActionAbilityTreeAsset : public UPrimaryDataAsset
+
+UCLASS(NotBlueprintable, meta = (DisplayName = "Action Ability Tree"))
+class CODEHACKER_API UActionAbilityTreeAsset : public UDataAsset
 {
 	GENERATED_BODY()
 	
 public:
 
-UActionAbilityTreeAsset();
+	UActionAbilityTreeAsset();
 
-	UPROPERTY(EditDefaultsOnly, Category = "AbilityTree|RootNode")
-	TSet<TSubclassOf<UActionAbilityNode>> ActionRootNodes;
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityTree")
+	TArray<FActionAbilityChain> ActionChains;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ActionAbilityTree")
+	TArray<FActionAbilityNode> IndependentNodes;
+
 };

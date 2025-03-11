@@ -39,7 +39,7 @@ void UCHInitComponent::OnRegister()
 
   TArray<UActorComponent*> initComponents;
   pawn->GetComponents(UCHInitComponent::StaticClass(), initComponents);
-  ensureAlwaysMsgf((initComponents.Num() == 1), TEXT("Only one InitComponent should exist on [%s]"), *GetNameSafe(pawn));
+  ensureAlwaysMsgf((initComponents.Num() == 1), TEXT("Only one CHInitComponent should exist on [%s]"), *GetNameSafe(pawn));
 
 }
 

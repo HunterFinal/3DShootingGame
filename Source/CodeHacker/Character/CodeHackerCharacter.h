@@ -5,6 +5,7 @@
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
+
 #include "CodeHackerCharacter.generated.h"
 
 class UCHSpringArmComponent;

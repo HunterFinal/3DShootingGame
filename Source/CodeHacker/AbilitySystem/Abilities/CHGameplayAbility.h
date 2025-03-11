@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Abilities/GameplayAbility.h"
+#include "BehaviorTree/BTNode.h"
 
 #include "CHGameplayAbility.generated.h"
 
