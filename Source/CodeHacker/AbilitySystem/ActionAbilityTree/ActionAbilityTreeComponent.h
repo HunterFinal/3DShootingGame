@@ -24,7 +24,7 @@ enum class EAATInputResult : uint8
 
   // Input Denied
   Failed,
-}
+};
 /**
  * 
  */

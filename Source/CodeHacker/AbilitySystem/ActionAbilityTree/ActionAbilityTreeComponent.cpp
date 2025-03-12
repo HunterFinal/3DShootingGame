@@ -59,3 +59,8 @@ void UActionAbilityTreeComponent::InitializeComponent()
   }
 }
 
+void UActionAbilityTreeComponent::UninitializeComponent()
+{
+  
+}
+
