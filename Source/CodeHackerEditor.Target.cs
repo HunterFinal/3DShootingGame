@@ -10,6 +10,6 @@ public class CodeHackerEditorTarget : TargetRules
 		Type = TargetType.Editor;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
-		ExtraModuleNames.Add("CodeHacker");
+		ExtraModuleNames.AddRange(new string [] { "CodeHacker", "CodeHackerEditor" });
 	}
 }

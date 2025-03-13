@@ -18,6 +18,16 @@
 			]
 		},
 		{
+			"Name" : "CodeHackerEditor",
+			"Type" : "Editor",
+			"LoadingPhase" : "Default",
+			"AdditionalDependencies" : 
+			[
+				"Engine",
+				"UnrealEd"
+			]
+		},
+		{
 			"Name": "MLibrary",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
