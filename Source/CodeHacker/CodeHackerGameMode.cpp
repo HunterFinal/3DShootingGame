@@ -21,6 +21,16 @@ ACodeHackerGameMode::ACodeHackerGameMode(const FObjectInitializer& ObjectInitial
 	}
 }
 
+void ACodeHackerGameMode::InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage)
+{
+	Super::InitGame(MapName, Options, ErrorMessage);
+}
+
+void ACodeHackerGameMode::InitGameState()
+{
+	Super::InitGameState();
+}
+
 const UCHPawnData* ACodeHackerGameMode::GetPawnDataForController(const AController* InController)
 {
 	if (InController == nullptr)

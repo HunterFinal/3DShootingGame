@@ -18,6 +18,12 @@ public:
 
 	ACodeHackerGameMode(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
+	//---Begin of AGameModeBase Interface
+	virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	virtual void InitGameState() override;
+	//---End of AGameModeBase Interface
+
+
 	// @TODO
 	// Remove const for temp test
 	UFUNCTION(BlueprintCallable, Category = "CodeHacker|Pawn")

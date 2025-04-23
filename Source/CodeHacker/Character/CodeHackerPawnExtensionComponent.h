@@ -32,10 +32,10 @@ public:
 	template<typename PawnDataType>
 	const PawnDataType* GetPawnData() const;
 
+	void SetPawnData(const UCHPawnData* PawnData);
+
 	void InitializeAbilitySystem(UCHAbilitySystemComponent* InASC, AActor* InOwnerActor);
-
 	void UninitializeAbilitySystem();
-
 	void HandleControllerChanged();
 
 protected:

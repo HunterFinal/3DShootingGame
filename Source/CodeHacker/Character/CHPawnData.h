@@ -9,9 +9,7 @@
 class APawn;
 class UCHInputConfig;
 class UCHCameraWork;
-/**
- * 
- */
+
 UCLASS(BlueprintType, Const, meta = (DisplayName = "Code Hacker Pawn Data", ShortTooltip = "Pawnを初期化するデータアセット"))
 class CODEHACKER_API UCHPawnData : public UPrimaryDataAsset
 {
@@ -26,6 +24,7 @@ public:
 	TSubclassOf<APawn> PawnClass;
 
 	// プレイヤーコントローラーインプット設定
+	// Asset
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CodeHacker|Pawn")
 	TObjectPtr<UCHInputConfig> InputConfig;
 

@@ -6,9 +6,9 @@
 
 #include "CHPlayerController.generated.h"
 
-/**
- * 
- */
+class ACHPlayerState;
+class UCHAbilitySystemComponent;
+
 UCLASS(Config = Game, meta = (ShortTooltip = "Code Hackerプレイヤーコントローラークラス"))
 class CODEHACKER_API ACHPlayerController : public APlayerController
 {
@@ -22,4 +22,10 @@ public:
 	virtual void PreProcessInput(const float DeltaTime, const bool bGamePause) override;
 	virtual void PostProcessInput(const float DeltaTime, const bool bGamePause) override;
 	//---End of APlayerController Interface
+
+	UFUNCTION(BlueprintPure, Category = "CodeHacker|PlayerController")
+	UCHAbilitySystemComponent* GetCHAbilitySystemComponent() const;
+
+	UFUNCTION(BlueprintPure, Category = "CodeHacker|PlayerController")
+	ACHPlayerState* GetCHPlayerStateChecked() const;
 };

@@ -4,6 +4,8 @@
 #include "CHPlayerController.h"
 
 #include "Camera/CHPlayerCameraManager.h"
+#include "CHPlayerState.h"
+#include "AbilitySystem/CHAbilitySystemComponent.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(CHPlayerController)
 
@@ -20,6 +22,24 @@ void ACHPlayerController::PreProcessInput(const float DeltaTime, const bool bGam
 
 void ACHPlayerController::PostProcessInput(const float DeltaTime, const bool bGamePaused)
 {
+  UCHAbilitySystemComponent* chASC = GetCHAbilitySystemComponent();
+  if (chASC != nullptr)
+  {
+    chASC->ProcessAbilityInput(DeltaTime, bGamePaused);
+  }
+  
   Super::PostProcessInput(DeltaTime, bGamePaused);
+  
+}
+
+UCHAbilitySystemComponent* ACHPlayerController::GetCHAbilitySystemComponent() const
+{
+  ACHPlayerState* playerState = GetPlayerState<ACHPlayerState>();
+  return ((playerState != nullptr) ? playerState->GetCHAbilitySystemComponent() : nullptr);
+}
+
+ACHPlayerState* ACHPlayerController::GetCHPlayerStateChecked() const
+{
+  return CastChecked<ACHPlayerState>(PlayerState, ECastCheckedType::NullAllowed);
 }
 
